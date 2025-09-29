@@ -1,5 +1,5 @@
+import os
 from selene import browser, have
-from selenium.webdriver.chrome.options import Options
 
 
 def test_form(browser_window):
@@ -19,7 +19,8 @@ def test_form(browser_window):
     browser.element('#subjectsInput').type('Chemistry').press_enter()
     browser.element('label[for="hobbies-checkbox-3"]').click()
 
-    browser.element('#uploadPicture').send_keys('D:\pic.png')
+    file_path = os.path.abspath('pic.png')
+    browser.element('#uploadPicture').send_keys(file_path)
 
     browser.element('#currentAddress').type('some address')
 
@@ -30,10 +31,9 @@ def test_form(browser_window):
 
     browser.element('#submit').click()
 
+
     browser.element('#example-modal-sizes-title-lg').should(have.text('Thanks for submitting the form'))
     browser.element('.table-responsive').all('tr').should(have.texts(
-        'Label Values', 'Student Name Vasilisa Pupkina', 'Student Email vpupkina@gmail.com',
-                    'Gender Female', 'Mobile 8800555332', 'Date of Birth 08 August,2007', 'Subjects Chemistry',
-                    'Hobbies Music', 'Picture pic.png', 'Address some address', 'State and City NCR Delhi'))
-
-
+    'Label Values', 'Student Name Vasilisa Pupkina', 'Student Email vpupkina@gmail.com',
+    'Gender Female', 'Mobile 8800555332', 'Date of Birth 08 August,2007', 'Subjects Chemistry',
+    'Hobbies Music', 'Picture pic.png', 'Address some address', 'State and City NCR Delhi'))
